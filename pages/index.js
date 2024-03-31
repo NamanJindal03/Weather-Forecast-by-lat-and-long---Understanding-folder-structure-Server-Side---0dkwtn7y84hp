@@ -8,22 +8,27 @@ export default function Home() {
   const [weatherForcastData, setWeatherForcastData] = useState([]);
   async function getWeatherData(e){
     e.preventDefault();
-    const response = await fetch(`${API_BASE_URL}?lat=${latitude}&lon=${longitude}`);
-    const weatherData = await response.json();
-    setWeatherForcastData(weatherData?.properties?.timeseries?.slice(0,30))
+    try{
+      const response = await fetch(`${API_BASE_URL}?lat=${latitude}&lon=${longitude}`);
+      const weatherData = await response.json();
+      setWeatherForcastData(weatherData?.properties?.timeseries?.slice(0,30))
+    }
+    catch(err){
+      console.error(err)
+    }
   }
   return (
     <>
       <div id="root">
         <h1>Weather Forecast</h1>
         <form onSubmit={getWeatherData}>
-          <label>Latitude
+          <label>Latitude:
           <input type="text" className="latitude" value={latitude} onChange={(e)=>setLatitude(e.target.value)}/>
 
 
           </label>
 
-          <label>Longitude
+          <label>Longitude:
           <input type="text" className="longitude" value={longitude} onChange={(e)=>setLongitude(e.target.value)}/>
 
 
@@ -33,21 +38,25 @@ export default function Home() {
         </form>
       </div>
       <table>
-        <tr>
-          <th>Time</th>
-          <th>Temperature (°C)</th>
-          <th>Summary</th>
-        </tr>
-        {weatherForcastData.map((weatherEntry)=>{
-          return(
-            <tr key={weatherEntry.time}>
-              <td>{new Date(weatherEntry.time).toLocaleString()}</td>
-              <td>{weatherEntry?.data?.instant?.details?.air_temperature.toFixed(1)}</td>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Temperature (°C)</th>
+            <th>Summary</th>
+          </tr>
+        </thead>
+        <tbody>
+          {weatherForcastData.map((weatherEntry)=>{
+            return(
+              <tr key={weatherEntry.time}>
+                <td>{new Date(weatherEntry.time).toLocaleString()}</td>
+                <td>{weatherEntry?.data?.instant?.details?.air_temperature.toFixed(1)}</td>
 
-              <td>{weatherEntry?.data?.next_1_hours?.summary?.symbol_code}</td>
-            </tr>
-          )
-        })}
+                <td>{weatherEntry?.data?.next_1_hours?.summary?.symbol_code}</td>
+              </tr>
+            )
+          })}
+        </tbody>
       </table>
     </>
   );
