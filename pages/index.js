@@ -17,11 +17,17 @@ export default function Home() {
       <div id="root">
         <h1>Weather Forecast</h1>
         <form onSubmit={getWeatherData}>
-          <label>Latitude</label>
+          <label>Latitude
           <input type="text" className="latitude" value={latitude} onChange={(e)=>setLatitude(e.target.value)}/>
 
-          <label>Longitude</label>
+
+          </label>
+
+          <label>Longitude
           <input type="text" className="longitude" value={longitude} onChange={(e)=>setLongitude(e.target.value)}/>
+
+
+          </label>
 
           <button type="submit">Get Forecast</button>
         </form>
