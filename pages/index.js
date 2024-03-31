@@ -42,7 +42,7 @@ export default function Home() {
           return(
             <tr key={weatherEntry.time}>
               <td>{new Date(weatherEntry.time).toLocaleString()}</td>
-              <td>{weatherEntry?.data?.instant?.details?.air_temperature}</td>
+              <td>{weatherEntry?.data?.instant?.details?.air_temperature.toFixed(1)}</td>
 
               <td>{weatherEntry?.data?.next_1_hours?.summary?.symbol_code}</td>
             </tr>
